@@ -3,8 +3,6 @@ name: .NET Core
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -34,11 +32,11 @@ jobs:
     - uses: actions/setup-node@v2-beta
       with:
         node-version: '12'
-    - uses: amondnet/vercel-action@v19
+    - name: Deploy to netlify
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-args: '--prod'
-        vercel-org-id: ${{ secrets.ORG_ID}} 
-        vercel-project-id: ${{ secrets.PROJECT_ID}}  
-        working-directory: ./publish/wwwroot
-        scope: maa123
+        args: deploy --dir=./dist --prod
+        secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
