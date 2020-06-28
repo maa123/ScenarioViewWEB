@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>AssetsLoadWeb</title>
+    <base href="/" />
+    <link rel="stylesheet" href="dist/uikit.min.css" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+</head>
+
+<body>
+    <app>Loading...</app>
+    <script src="dist/uikit.min.js"></script>
+    <script src="dist/uikit-icons.min.js" defer></script>
+    <script src="main.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js', {scope: '/'}).then(registration => { registration.onupdatefound = _ => { console.log("Update");registration.update(); }});</script>
+    <style>
+        /*#talk{
+            color:#936700;
+            list-style:none;
+        }
+
+        #talk > li {
+            border: solid 0px;
+            border-bottom: solid 1px;
+        }
+        #talk > li.nb {
+            border: none;
+        }*/
+        #talk > .uk-card {
+            color: #936700;
+        }
+    </style>
+</body>
+
+</html>

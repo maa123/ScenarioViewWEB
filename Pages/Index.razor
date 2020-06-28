@@ -1,0 +1,60 @@
+﻿@page "/"
+@using System.IO;
+@using AssetStudio;
+@inject IJSRuntime jsRuntime
+@inject IFileReaderService fileReaderService;
+    <div class="uk-grid-small uk-padding-small uk-flex-center" uk-grid>
+        <div class="uk-section uk-text-center uk-width-1-1">
+            <div>
+                <input class="uk-button uk-button-default" type="file" @ref=inputElement>
+            </div>
+        </div>
+        <div class="uk-section uk-text-center uk-width-1-1">
+            <button @onclick="(async () => await ParseFiles())">変換</button>
+            <!--<ul id="talk"></ul>-->
+            <div id="talk" class="uk-child-width-1 uk-grid-small uk-text-center" uk-grid></div>
+            <div class="uk-margin">
+                <textarea id="result" class="uk-textarea" style="width:100%;"></textarea>
+            </div>
+        </div>
+        <button type="button" onclick="navigator.serviceWorker.getRegistration('service-worker.js').then(r => {r.unregister();})">キャッシュクリア</button>
+        </div>
+
+    @code {
+        ElementReference inputElement;
+        IFileReaderRef fileReaderReference;
+        protected override void OnAfterRender(bool isFirstRender) {
+            fileReaderReference = fileReaderService.CreateReference(inputElement);
+        }
+        public async Task ParseFiles() {
+            AssetsManager aM = new AssetsManager();
+            foreach (var file in await fileReaderReference.EnumerateFilesAsync()) {
+                var fileName = (await file.ReadFileInfoAsync()).Name;
+                var ms = await file.CreateMemoryStreamAsync();
+                aM.LoadStream((Stream)ms, fileName);
+                MonoBehaviour mB = null;
+                foreach (var asset in aM.assetsFileList[0].Objects) {
+                    switch (asset) {
+                        case MonoBehaviour m_MonoBehaviour:
+                            mB = m_MonoBehaviour;
+                            break;
+                        case Texture2D m_Texture2D:
+                            var bitmap = m_Texture2D.ConvertToBitmap(true);
+                            bitmap.dispose();
+                            break;
+                    }
+                }
+                if (mB != null) {
+                    await jsRuntime.InvokeAsync<string>("window.writeResult", mB.Dump());
+                }
+                //await jsRuntime.InvokeAsync<string>("console.log", (await file.ReadFileInfoAsync()).Name);
+                /*multipartFormDataContent.Add(
+                    new StreamContent(await file.OpenReadAsync(), 8192),
+                    "files",
+                    (await file.ReadFileInfoAsync()).Name);*/
+            }
+
+            //var res = await HttpClient.PostAsync(requestUri: "https://myupload.website/api/upload/files", content: multipartFormDataContent);
+            //debug = await res.Content.ReadAsStringAsync();
+        }
+    }
