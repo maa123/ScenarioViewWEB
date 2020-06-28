@@ -13,12 +13,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
+    #- name: Setup .NET Core
+    #  uses: actions/setup-dotnet@v1
+    #  with:
+    #    dotnet-version: 3.1.301
+    - name: Setup NetCore
+      run: |
+           wget https://dot.net/v1/dotnet-install.sh
+           chmod +x ./dotnet-install.sh
+           ./dotnet-install.sh
+           export PATH=~/.dotnet:$PATH
+    #- name: Install dependencies
+    #  run: dotnet restore
     #- name: Build
     #  run: dotnet build --configuration Release --no-restore
     #- name: Test
