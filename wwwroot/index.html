@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app><div id="loadview"><div class="uk-position-center" uk-spinner></div></div></app>
     <script src="dist/uikit.min.js"></script>
     <script src="dist/uikit-icons.min.js" defer></script>
     <script src="main.js"></script>
@@ -22,6 +22,7 @@
         #talk > .uk-card {
             color: #936700;
         }
+        #loadview {width: 100vw;height: 100vh;position: fixed;top: 0;bottom: 0;left: 0;right: 0;background-color: rgba(200,200,200,0.8);}
     </style>
 </body>
 
