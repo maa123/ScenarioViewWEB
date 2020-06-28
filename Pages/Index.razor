@@ -11,13 +11,11 @@
         </div>
         <div class="uk-section uk-text-center uk-width-1-1">
             <button @onclick="(async () => await ParseFiles())">変換</button>
-            <!--<ul id="talk"></ul>-->
             <div id="talk" class="uk-child-width-1 uk-grid-small uk-text-center" uk-grid></div>
             <div class="uk-margin">
                 <textarea id="result" class="uk-textarea" style="width:100%;"></textarea>
             </div>
         </div>
-        <button type="button" onclick="navigator.serviceWorker.getRegistration('service-worker.js').then(r => {r.unregister();})">キャッシュクリア</button>
         </div>
 
     @code {
