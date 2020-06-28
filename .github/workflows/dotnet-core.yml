@@ -31,6 +31,9 @@ jobs:
     #  run: dotnet test --no-restore --verbosity normal
     - name: Publish
       run: dotnet publish -c Release /p:PublishReadyToRun=true /p:PublishTrimmed=true -o public
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
     - uses: amondnet/vercel-action@v19
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
