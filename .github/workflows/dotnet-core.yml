@@ -29,14 +29,19 @@ jobs:
     #  run: dotnet test --no-restore --verbosity normal
     - name: Publish
       run: dotnet publish -c Release /p:PublishReadyToRun=true /p:PublishTrimmed=true -o public
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '12'
-    - name: Deploy to netlify
-      uses: netlify/actions/cli@master
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      with:
-        args: deploy --dir=/home/runner/work/ScenarioViewWEB/ScenarioViewWEB/publish/wwwroot --prod
-        secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+    - name: checks
+      run: |
+          pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
+          ls
+          ls /home/runner
+    #- uses: actions/setup-node@v2-beta
+    #  with:
+    #    node-version: '12'
+    #- name: Deploy to netlify
+      #uses: netlify/actions/cli@master
+      #env:
+      #  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #with:
+      #  args: deploy --dir=/home/runner/work/ScenarioViewWEB/ScenarioViewWEB/publish/wwwroot --prod
+      #  secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
