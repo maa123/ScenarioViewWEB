@@ -36,10 +36,6 @@
                         case MonoBehaviour m_MonoBehaviour:
                             mB = m_MonoBehaviour;
                             break;
-                        case Texture2D m_Texture2D:
-                            var bitmap = m_Texture2D.ConvertToBitmap(true);
-                            bitmap.dispose();
-                            break;
                     }
                 }
                 if (mB != null) {
