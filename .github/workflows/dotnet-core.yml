@@ -29,21 +29,14 @@ jobs:
     #  run: dotnet test --no-restore --verbosity normal
     - name: Publish
       run: dotnet publish -c Release /p:PublishReadyToRun=true /p:PublishTrimmed=true -o public
-    - uses: amondnet/vercel-action@v19
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-args: '--prod'
-        vercel-org-id: ${{ secrets.ORG_ID}} 
-        vercel-project-id: ${{ secrets.PROJECT_ID}}  
-        working-directory: ./public/wwwroot
     #- uses: actions/setup-node@v2-beta
     #  with:
     #    node-version: '12'
-    #- name: Deploy to netlify
-      #uses: netlify/actions/cli@master
-      #env:
-      #  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      #  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      #with:
-      #  args: deploy --dir=/home/runner/work/ScenarioViewWEB/ScenarioViewWEB/public/wwwroot --prod
-      #  secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+    - name: Deploy to netlify
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      with:
+        args: deploy --dir=./public/wwwroot --prod
+        secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
